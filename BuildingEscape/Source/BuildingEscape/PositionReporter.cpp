@@ -20,8 +20,9 @@ void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	FString name = GetOwner()->GetName();
-	UE_LOG(LogTemp, Error, TEXT("Hello my name is %s"), *name);
+	FString Name = GetOwner()->GetName();
+	FString PosString = GetOwner()->GetActorLocation().ToString();
+	UE_LOG(LogTemp, Error, TEXT("%s is at position : %s"), *Name, *PosString);
 	
 	// ...
 	
