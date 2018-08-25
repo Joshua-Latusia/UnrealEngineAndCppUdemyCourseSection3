@@ -16,6 +16,8 @@ class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UOpenDoor();
+	void OpenDoor();
+	void CloseDoor();
 	AActor* Door;
 	FRotator Rotation;
 
@@ -30,12 +32,21 @@ public:
 
 private:
 
-	// Angle of an opened door
 	UPROPERTY(VisibleAnywhere)
-	float OpenDoorAngle = 85.0f;
+	float CurrentAngle = 0.0f;
+
+	// Angle of opening door anticlockwise
+	UPROPERTY(VisibleAnywhere)
+	float OpenDoorAntiClockWiseAngle = -90.0f;
+
+	// Angle of opening door clockwise
+	UPROPERTY(VisibleAnywhere)
+	float OpenDoorClockWiseAngle = 90.0f;
 
 	// Amounth of  Weight needed to open the door
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
-	
+
+	UPROPERTY(EditAnywhere)
+	AActor* ActorThatOpensDoor;
 };
