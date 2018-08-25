@@ -20,11 +20,7 @@ void UOpenDoor::OpenDoor()
 	if (CurrentAngle > OpenDoorAntiClockWiseAngle)
 	{
 		CurrentAngle--;
-
-		FRotator NewRotation = FRotator(0.0f, CurrentAngle, 0.0f);
-		Door->SetActorRotation(NewRotation);
-		FString RotationAfter = Door->GetActorRotation().ToString();
-		UE_LOG(LogTemp, Error, TEXT("Rotation after : %s"), *RotationAfter);
+		Door->SetActorRotation(FRotator(0.0f, CurrentAngle, 0.0f));
 	}
 }
 
@@ -33,11 +29,10 @@ void UOpenDoor::OpenDoor()
 /// </summary>
 void UOpenDoor::CloseDoor()
 {
-	if (CurrentAngle < 0.0f)
+	if (CurrentAngle < 0.0f && DoorOpenedTime + DoorCloseDelay < GetWorld()->GetTimeSeconds())
 	{
 		CurrentAngle++;
-		FRotator NewRotation = FRotator(0.0f, CurrentAngle, 0.0f);
-		Door->SetActorRotation(NewRotation);
+		Door->SetActorRotation(FRotator(0.0f, CurrentAngle, 0.0f));
 	}
 }
 
@@ -49,7 +44,6 @@ void UOpenDoor::BeginPlay()
 
 	// Makes it so that the player is the trigger to open the door.
 	ActorThatOpensDoor = GetWorld()->GetFirstPlayerController()->GetPawn();
-
 }
 
 // Called every frame
@@ -60,6 +54,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	if(PressurePlate->IsOverlappingActor(ActorThatOpensDoor))
 	{
 		OpenDoor();
+		DoorOpenedTime = GetWorld()->GetTimeSeconds();
 	}
 	else
 	{

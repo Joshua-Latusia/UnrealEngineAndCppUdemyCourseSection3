@@ -43,10 +43,17 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float OpenDoorClockWiseAngle = 90.0f;
 
-	// Amounth of  Weight needed to open the door
+	// Amount of  Weight needed to open the door
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
 	AActor* ActorThatOpensDoor;
+
+	// Amount of seconds before door when trigger is not triggered anymore
+	UPROPERTY(EditAnywhere)
+	float DoorCloseDelay = 1.5f;
+
+	// Save time of when door must close
+	float DoorOpenedTime = 0.0f;
 };
