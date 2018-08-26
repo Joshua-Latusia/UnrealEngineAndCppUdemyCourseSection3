@@ -24,6 +24,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
 	
+	/// <summary>
+	/// The player location
+	/// </summary>
+	FVector PlayerLocation;
+	
+	/// <summary>
+	/// The player rotation
+	/// </summary>
+	FRotator PlayerRotation;
+
+	// Distance the player can reach to grab objects
+	UPROPERTY(EditAnywhere)
+	float GrabReach = 150.f;
+		
 };
