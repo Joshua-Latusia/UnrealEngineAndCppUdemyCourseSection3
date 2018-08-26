@@ -39,12 +39,20 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	// Retrieve player location and rotation
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerLocation, OUT PlayerRotation);
 
-	//UE_LOG(LogTemp, Error, TEXT("Player location %s : rotation %s"), *PlayerLocation.ToString(), *PlayerRotation.ToString());
-
-	FVector LineTraceEnd = PlayerLocation + PlayerRotation.Vector() * GrabReach;
-
 	// Draw trace to see reach of player
+	FVector LineTraceEnd = PlayerLocation + PlayerRotation.Vector() * GrabReach;
 	DrawDebugLine(GetWorld(), PlayerLocation, LineTraceEnd, FColor(0,255,0),false,-1.f,0.f,8.f);
+
+	// Setup query params
+	const FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+
+	// Line-trace 
+	FHitResult HitResult;
+	const bool HitObject = GetWorld()->LineTraceSingleByObjectType(OUT HitResult ,PlayerLocation, LineTraceEnd, FCollisionObjectQueryParams(ECC_PhysicsBody), TraceParameters);
+	if(HitObject)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Grabber hit the object : %s"), *HitResult.Actor->GetName());
+	}
 
 }
 
