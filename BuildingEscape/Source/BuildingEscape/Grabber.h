@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
 #include "Grabber.generated.h"
 
 
@@ -39,5 +41,13 @@ private:
 	// Distance the player can reach to grab objects
 	UPROPERTY(EditAnywhere)
 	float GrabReach = 150.f;
-		
+
+
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+
+	UInputComponent* InputComponent = nullptr;
+
+	// Grab item in the ray cast
+	void Grab();
+
 };
