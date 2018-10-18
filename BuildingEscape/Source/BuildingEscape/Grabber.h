@@ -18,16 +18,21 @@ public:
 	// Sets default values for this component's properties
 	UGrabber();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	
+
 private:
 	
+	/// <summary>
+	/// The name of the owner
+	/// </summary>
+	FString Name;
+
 	/// <summary>
 	/// The player location
 	/// </summary>
@@ -38,19 +43,56 @@ private:
 	/// </summary>
 	FRotator PlayerRotation;
 
-	// Distance the player can reach to grab objects
-	UPROPERTY(EditAnywhere)
+
+	UPROPERTY(EditAnywhere)	
+	/// <summary>
+	///  Distance the player can reach to grab objects
+	/// </summary>
 	float GrabReach = 150.f;
+	
+	/// <summary>
+	/// The line trace end
+	/// </summary>
+	FVector LineTraceEnd;
+	
+	/// <summary>
+	/// Updates the line trace end.
+	/// </summary>
+	void UpdateLineTraceEnd();
 
-
+	/// <summary>
+	/// The physics handle
+	/// </summary>
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
-
+	
+	/// <summary>
+	/// The input component
+	/// </summary>
 	UInputComponent* InputComponent = nullptr;
 
-	// Grab item in the ray cast
+	/// <summary>
+	/// Grabs item in the ray cast
+	/// </summary>
 	void Grab();
-
-	// Release item
+	
+	/// <summary>
+	/// Releases item that is grabber.
+	/// </summary>
 	void Release();
-
+	
+	/// <summary>
+	/// Initializes the physics handle.
+	/// </summary>
+	void InitPhysicsHandle();
+	
+	/// <summary>
+	/// Initializes the input component.
+	/// </summary>
+	void InitInputComponent();
+	
+	/// <summary>
+	/// Gets the first physics body in reach.
+	/// </summary>
+	/// <returns></returns>
+	FHitResult GetFirstPhysicsBodyInReach();
 };
