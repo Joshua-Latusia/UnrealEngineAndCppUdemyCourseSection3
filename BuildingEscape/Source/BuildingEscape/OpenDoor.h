@@ -18,7 +18,7 @@ public:
 	UOpenDoor();
 	void OpenDoor();
 	void CloseDoor();
-	AActor* Door;
+	AActor* Door = nullptr;
 	FRotator Rotation;
 	const float OPENDOOR_TRIGGER_MASS = 50.f;
 
@@ -46,10 +46,10 @@ private:
 
 	// Amount of  Weight needed to open the door
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+	ATriggerVolume* PressurePlate = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	AActor* ActorThatOpensDoor;
+	AActor* ActorThatOpensDoor = nullptr;
 
 	// Amount of seconds before door when trigger is not triggered anymore
 	UPROPERTY(EditAnywhere)

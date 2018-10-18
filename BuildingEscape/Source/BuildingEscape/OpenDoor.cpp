@@ -66,6 +66,13 @@ float UOpenDoor::GetMassOnTriggerVolume()
 	float totalMass = 0.f;
 	// Find all overlapping actors on pressure plate and calcultae mass
 	TArray<AActor*> overlappingActors;
+
+	if(!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s : Cant calculte mass on triggervolume, PressurePlate is missing"), *GetOwner()->GetName());
+		return totalMass;
+	}
+
 	PressurePlate->GetOverlappingActors(overlappingActors);
 
 	for(const auto& actor : overlappingActors)

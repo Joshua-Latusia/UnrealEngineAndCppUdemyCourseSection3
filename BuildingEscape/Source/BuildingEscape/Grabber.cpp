@@ -69,7 +69,10 @@ void UGrabber::Grab()
 	// On hit -> attach physics handel
 	if(ActorHit)
 	{
-		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), FRotator::ZeroRotator);
+		if(PhysicsHandle)
+		{
+			PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), FRotator::ZeroRotator);
+		}
 	}
 }
 
@@ -77,7 +80,10 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s : Releasing item"), *Name);
-	PhysicsHandle->ReleaseComponent();
+	if(PhysicsHandle)
+	{
+		PhysicsHandle->ReleaseComponent();
+	}
 }
 
 // Called every frame
@@ -86,7 +92,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// If handle is attached, move component
-	if(PhysicsHandle->GrabbedComponent)
+	if(PhysicsHandle && PhysicsHandle->GrabbedComponent)
 	{
 		UpdateLineTraceEnd();
 		PhysicsHandle->SetTargetLocation(LineTraceEnd);
