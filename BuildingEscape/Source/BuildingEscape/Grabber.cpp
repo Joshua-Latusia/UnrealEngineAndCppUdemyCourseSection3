@@ -45,6 +45,7 @@ void UGrabber::BeginPlay()
 	if(InputComponent)
 	{
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else
 	{
@@ -52,9 +53,16 @@ void UGrabber::BeginPlay()
 	}
 }
 
+// Called when right mouse button is pressed
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s : Grabbing item"), *GetOwner()->GetName());
+}
+
+// Calleed when right mouse button is released
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s : Releasing item"), *GetOwner()->GetName());
 }
 
 // Called every frame

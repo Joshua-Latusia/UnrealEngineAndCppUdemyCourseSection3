@@ -50,4 +50,7 @@ private:
 	// Grab item in the ray cast
 	void Grab();
 
+	// Release item
+	void Release();
+
 };
