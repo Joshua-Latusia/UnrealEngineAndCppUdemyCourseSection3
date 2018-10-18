@@ -13,30 +13,6 @@ UOpenDoor::UOpenDoor()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-/// <summary>
-/// Opens the door by adjusting yawn rotation.
-/// </summary>
-void UOpenDoor::OpenDoor()
-{
-	if (CurrentAngle > OpenDoorAntiClockWiseAngle)
-	{
-		CurrentAngle--;
-		Door->SetActorRotation(FRotator(0.0f, CurrentAngle, 0.0f));
-	}
-}
-
-/// <summary>
-/// Closes the door.
-/// </summary>
-void UOpenDoor::CloseDoor()
-{
-	if (CurrentAngle < 0.0f && DoorOpenedTime + DoorCloseDelay < GetWorld()->GetTimeSeconds())
-	{
-		CurrentAngle++;
-		Door->SetActorRotation(FRotator(0.0f, CurrentAngle, 0.0f));
-	}
-}
-
 // Called when the game starts
 void UOpenDoor::BeginPlay()
 {
@@ -46,18 +22,23 @@ void UOpenDoor::BeginPlay()
 }
 
 // Called every frame
+/// <summary>
+/// Ticks the component.
+/// </summary>
+/// <param name="DeltaTime">The delta time.</param>
+/// <param name="TickType">Type of the tick.</param>
+/// <param name="ThisTickFunction">The this tick function.</param>
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (GetMassOnTriggerVolume() > OPENDOOR_TRIGGER_MASS)
 	{
-		OpenDoor();
-		DoorOpenedTime = GetWorld()->GetTimeSeconds();
+		OnOpen.Broadcast();
 	}
 	else
 	{
-		CloseDoor();
+		OnClose.Broadcast();
 	}
 }
 
