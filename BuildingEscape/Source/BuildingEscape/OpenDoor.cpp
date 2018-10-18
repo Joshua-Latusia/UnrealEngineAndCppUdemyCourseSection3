@@ -3,6 +3,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Math/Rotator.h"
+#include "Components/PrimitiveComponent.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -42,8 +43,6 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 	Door = GetOwner();
 
-	// Makes it so that the player is the trigger to open the door.
-	ActorThatOpensDoor = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 // Called every frame
@@ -51,7 +50,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(PressurePlate->IsOverlappingActor(ActorThatOpensDoor))
+	if (GetMassOnTriggerVolume() > OPENDOOR_TRIGGER_MASS)
 	{
 		OpenDoor();
 		DoorOpenedTime = GetWorld()->GetTimeSeconds();
@@ -60,5 +59,21 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		CloseDoor();
 	}
+}
+
+float UOpenDoor::GetMassOnTriggerVolume()
+{
+	float totalMass = 0.f;
+	// Find all overlapping actors on pressure plate and calcultae mass
+	TArray<AActor*> overlappingActors;
+	PressurePlate->GetOverlappingActors(overlappingActors);
+
+	for(const auto& actor : overlappingActors)
+	{
+		totalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+		UE_LOG(LogTemp, Error, TEXT("%s : Is standing in the triggervolume"), *actor->GetName());
+	}
+
+	return totalMass;
 }
 

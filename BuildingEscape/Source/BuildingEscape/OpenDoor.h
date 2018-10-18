@@ -20,6 +20,7 @@ public:
 	void CloseDoor();
 	AActor* Door;
 	FRotator Rotation;
+	const float OPENDOOR_TRIGGER_MASS = 50.f;
 
 
 protected:
@@ -56,4 +57,10 @@ private:
 
 	// Save time of when door must close
 	float DoorOpenedTime = 0.0f;
+	
+	/// <summary>
+	/// Gets the mass on the trigger volume in kg.
+	/// </summary>
+	/// <returns></returns>
+	float GetMassOnTriggerVolume();
 };

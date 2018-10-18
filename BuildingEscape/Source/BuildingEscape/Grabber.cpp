@@ -36,11 +36,7 @@ void UGrabber::BeginPlay()
 void UGrabber::InitPhysicsHandle()
 {
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle)
-	{
-
-	}
-	else
+	if (!PhysicsHandle)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s : PhysicsHandleComponent could not be found"), *Name);
 	}
